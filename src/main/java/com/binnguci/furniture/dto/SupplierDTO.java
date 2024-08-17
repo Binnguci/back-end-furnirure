@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SupplierDTO {
-    private String id;
+    private Integer id;
     private String name;
 }

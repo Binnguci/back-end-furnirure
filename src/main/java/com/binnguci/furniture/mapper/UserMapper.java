@@ -1,5 +1,6 @@
 package com.binnguci.furniture.mapper;
 
+import com.binnguci.furniture.dto.request.RegisterRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import com.binnguci.furniture.entity.UserEntity;
@@ -13,4 +14,6 @@ public interface UserMapper {
     UserDTO toDTO(UserEntity userEntity);
 
     UserEntity toEntity(UserDTO userDTO);
+
+    UserEntity toRequestToEntity(RegisterRequest registerRequest);
 }

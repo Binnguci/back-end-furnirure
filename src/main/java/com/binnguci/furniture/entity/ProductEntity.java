@@ -35,8 +35,5 @@ public class ProductEntity {
     private Set<OrderItemEntity> orderItems = new HashSet<>();
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<WishlistEntity> wishlist;
-    @Column(name = "created_at")
-    private java.time.LocalDateTime created_at;
-    @Column(name = "updated_at")
-    private java.time.LocalDateTime updated_at;
+
 }

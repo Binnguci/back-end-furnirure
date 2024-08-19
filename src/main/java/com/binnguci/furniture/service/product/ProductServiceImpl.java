@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,13 +28,13 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public ProductDTO findById(Integer id) {
-        return productRepository.findById(id)
-                .map(productMapper::toDTO)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        log.info("Request to get product with id: {}", id);
+        return productRepository.findById(id).map(productMapper::toDTO).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
 
     @Override
     public Page<ProductDTO> findAll(Pageable pageable) {
+        log.info("Request to get all products");
         Page<ProductEntity> productPage = productRepository.findAll(pageable);
         return productPage.map(productMapper::toDTO);
     }
@@ -41,30 +42,34 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<ProductDTO> findByMultiFields(ProductSearchRequest productSearchRequest) {
         log.info("Request to search product by name: {}", productSearchRequest.getName());
-        return productRepositoryCustom.findAllMultiField(productSearchRequest)
-                .stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+        return productRepositoryCustom.findAllMultiField(productSearchRequest).stream().map(productMapper::toDTO).collect(Collectors.toList());
     }
 
 
     @Override
     public ProductDTO updateAndSave(ProductDTO productDTO) {
         log.info("Request to update product with id: {}", productDTO.getId());
-        return productMapper.toDTO(
-                productRepository.save(
-                        productMapper.toEntity(productDTO)
-                )
-        );
+        ProductEntity productEntity = productMapper.toEntity(productDTO);
+        if (productEntity.getId() == null) {
+            log.info("Successfully to create product");
+            productEntity.setCreatedAt(LocalDateTime.now());
+
+        } else {
+            log.info("Successfully to update product");
+            productEntity.setUpdatedAt(LocalDateTime.now());
+        }
+        log.info("Successfully updated or create product with id: {}", productDTO.getId());
+        ProductEntity savedEntity = productRepository.save(productEntity);
+        return productMapper.toDTO(savedEntity);
     }
 
     @Override
     public ProductDTO delete(Integer id) {
         log.info("Request to delete product with id: {}", id);
-        ProductEntity productEntity = productRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-        productEntity.setIsActive((short)0);
+        ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        productEntity.setIsActive((short) 0);
         ProductDTO productDTO = productMapper.toDTO(productRepository.save(productEntity));
+        log.info("Successfully deleted product with id: {}", id);
         return productDTO;
     }
 

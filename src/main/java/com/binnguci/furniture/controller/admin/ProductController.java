@@ -5,6 +5,7 @@ import com.binnguci.furniture.dto.response.APIResponse;
 import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.service.product.IProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -43,7 +44,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<APIResponse<ProductDTO>> create(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<APIResponse<ProductDTO>> create(@Valid @RequestBody ProductDTO productDTO) {
         log.info("Request to create product");
         try {
             ProductDTO product = productService.updateAndSave(productDTO);

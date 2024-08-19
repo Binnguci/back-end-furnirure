@@ -21,6 +21,4 @@ public class CartItemEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductEntity product;
-    private Double amount;
-
 }

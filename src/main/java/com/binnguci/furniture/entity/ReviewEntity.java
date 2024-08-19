@@ -20,10 +20,10 @@ public class ReviewEntity {
     private String comment;
     private Double rating;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
     @Column(name = "created_at")
     private LocalDateTime created_at;

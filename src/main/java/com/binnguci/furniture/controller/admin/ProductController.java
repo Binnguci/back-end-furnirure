@@ -7,6 +7,9 @@ import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +24,21 @@ public class ProductController {
     private final IProductService productService;
 
     @GetMapping()
-    public ResponseEntity<APIResponse<List<ProductDTO>>> findAll() {
-        log.info("Request to get all products");
+    public ResponseEntity<APIResponse<Page<ProductDTO>>> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int size) {
         try {
-            List<ProductDTO> products = productService.findAll();
-            APIResponse<List<ProductDTO>> response = APIResponse.<List<ProductDTO>>builder()
+            log.info("Request to get all products");
+            Pageable pageable = PageRequest.of(page, size);
+            Page<ProductDTO> productPage = productService.findAll(pageable);
+            APIResponse<Page<ProductDTO>> response = APIResponse.<Page<ProductDTO>>builder()
                     .code(ErrorCode.SUCCESS.getCode())
                     .message(ErrorCode.SUCCESS.getMessage())
-                    .result(products)
+                    .result(productPage)
                     .build();
             return ResponseEntity.ok(response);
         } catch (Exception ex) {
-            throw new AppException(ErrorCode.NOT_FOUND);
+            throw new AppException(ErrorCode.INVALID_REQUEST);
         }
     }
 

@@ -10,6 +10,8 @@ import com.binnguci.furniture.repository.IProductRepository;
 import com.binnguci.furniture.repository.custom.product.IProductRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,12 +33,9 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<ProductDTO> findAll() {
-        log.info("Request to get all products");
-        return productRepository.findAll()
-                .stream()
-                .map(productMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<ProductDTO> findAll(Pageable pageable) {
+        Page<ProductEntity> productPage = productRepository.findAll(pageable);
+        return productPage.map(productMapper::toDTO);
     }
 
     @Override

@@ -59,6 +59,22 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/description/{id}")
+    public ResponseEntity<APIResponse<ProductDTO>> findById(@PathVariable Integer id) {
+        log.info("Request to get product by id: {}", id);
+        try {
+            ProductDTO product = productService.findById(id);
+            APIResponse<ProductDTO> response = APIResponse.<ProductDTO>builder()
+                    .code(ErrorCode.SUCCESS.getCode())
+                    .message(ErrorCode.SUCCESS.getMessage())
+                    .result(product)
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (Exception ex) {
+            throw new AppException(ErrorCode.INVALID_REQUEST);
+        }
+    }
+
 
     private ResponseEntity<APIResponse<List<ProductDTO>>> buildResponse(List<ProductDTO> products, String notFoundMessage) {
         if (products.isEmpty()) {

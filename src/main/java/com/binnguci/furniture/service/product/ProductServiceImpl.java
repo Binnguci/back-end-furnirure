@@ -24,6 +24,13 @@ public class ProductServiceImpl implements IProductService {
     private final ProductMapper productMapper;
 
     @Override
+    public ProductDTO findById(Integer id) {
+        return productRepository.findById(id)
+                .map(productMapper::toDTO)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+    }
+
+    @Override
     public List<ProductDTO> findAll() {
         log.info("Request to get all products");
         return productRepository.findAll()

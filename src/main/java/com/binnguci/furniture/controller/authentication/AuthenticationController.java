@@ -2,6 +2,7 @@ package com.binnguci.furniture.controller.authentication;
 
 import com.binnguci.furniture.dto.UserDTO;
 import com.binnguci.furniture.dto.request.AuthenticationRequest;
+import com.binnguci.furniture.dto.request.LogoutRequest;
 import com.binnguci.furniture.dto.response.APIResponse;
 import com.binnguci.furniture.dto.response.JwtResponse;
 import com.binnguci.furniture.enums.ErrorCode;
@@ -33,7 +34,7 @@ public class AuthenticationController {
                     .result(jwtObj)
                     .build();
             return ResponseEntity.ok(response);
-        } else{
+        } else {
             APIResponse<JwtResponse> response = APIResponse.<JwtResponse>builder()
                     .code(ErrorCode.INVALID_REQUEST.getCode())
                     .message(ErrorCode.INVALID_REQUEST.getMessage())
@@ -42,4 +43,15 @@ public class AuthenticationController {
         }
 
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<APIResponse<Void>> logout(@RequestBody @Valid LogoutRequest request) {
+        authenticationService.logout(request);
+        APIResponse<Void> response = APIResponse.<Void>builder()
+                .code(ErrorCode.SUCCESS.getCode())
+                .message(ErrorCode.SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
 }

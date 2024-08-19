@@ -1,10 +1,12 @@
 package com.binnguci.furniture.entity;
 
 import jakarta.persistence.*;
+import jakarta.websocket.SendHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 @Data
@@ -20,6 +22,8 @@ public class ProductEntity {
     private Double price;
     private Integer stock;
     private String description;
+    @Column(name = "is_active")
+    private Short isActive;
     private String image;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
@@ -35,4 +39,11 @@ public class ProductEntity {
     private Set<OrderItemEntity> orderItems = new HashSet<>();
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<WishlistEntity> wishlist;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
 }

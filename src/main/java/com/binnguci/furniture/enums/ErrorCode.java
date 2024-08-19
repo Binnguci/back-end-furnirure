@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+    DELETE_SUCCESS(200, "Delete success"),
+    DELETE_FAILED(400, "Delete failed"),
     SUCCESS(200, "Success"),
     INVALID_REQUEST(400, "Invalid request"),
     PARAMETER_NOT_VALID(400, "Parameter not valid"),

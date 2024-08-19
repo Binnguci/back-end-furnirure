@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String comment;
     private Double rating;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +26,7 @@ public class ReviewEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
     @Column(name = "created_at")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @Column(name = "updated_at")
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 }

@@ -18,6 +18,7 @@ public class ProductDTO {
     private Double price;
     private Integer stock;
     private String description;
+    private Short isActive;
     private String image;
     private CategoryDTO category;
     private SupplierDTO supplier;

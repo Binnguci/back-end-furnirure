@@ -1,6 +1,7 @@
 package com.binnguci.furniture.entity;
 
 import jakarta.persistence.*;
+import jakarta.websocket.SendHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,8 @@ public class ProductEntity {
     private Double price;
     private Integer stock;
     private String description;
+    @Column(name = "is_active")
+    private Short isActive;
     private String image;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)

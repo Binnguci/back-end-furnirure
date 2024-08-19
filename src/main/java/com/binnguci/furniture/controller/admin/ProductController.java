@@ -7,6 +7,7 @@ import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class ProductController {
     private final IProductService productService;
 
-    @GetMapping(    )
+    @GetMapping()
     public ResponseEntity<APIResponse<List<ProductDTO>>> findAll() {
         log.info("Request to get all products");
         try {
@@ -66,4 +67,26 @@ public class ProductController {
             throw new AppException(ErrorCode.UPDATE_FAILED);
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<APIResponse<ProductDTO>> deleteProduct(@PathVariable Integer id) {
+        log.info("Request to delete product with id: {}", id);
+        try {
+            ProductDTO deletedProduct = productService.delete(id);
+            APIResponse<ProductDTO> response = APIResponse.<ProductDTO>builder()
+                    .code(ErrorCode.DELETE_SUCCESS.getCode())
+                    .message(ErrorCode.DELETE_SUCCESS.getMessage())
+                    .result(deletedProduct)
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (AppException ex) {
+            log.error("Failed to delete product with id: {}. Error: {}", id, ex.getMessage());
+            APIResponse<ProductDTO> response = APIResponse.<ProductDTO>builder()
+                    .code(ErrorCode.NOT_FOUND.getCode())
+                    .message(ErrorCode.NOT_FOUND.getMessage())
+                    .build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
 }

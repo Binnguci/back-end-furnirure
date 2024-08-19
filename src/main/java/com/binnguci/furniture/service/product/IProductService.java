@@ -9,4 +9,5 @@ public interface IProductService {
     List<ProductDTO> findAll();
     List<ProductDTO> findByMultiFields(ProductSearchRequest productSearchRequest);
     ProductDTO updateAndSave(ProductDTO productDTO);
+    ProductDTO delete(Integer id);
 }

@@ -33,40 +33,31 @@ public class ProductController {
         }
     }
 
-//    @GetMapping("/search")
-//    public ResponseEntity<APIResponse<List<ProductDTO>>> findProduct(@RequestParam ProductSearchRequest productSearchRequest) {
-//        log.info("Request to search product by name: {}", productSearchRequest);
-//        try {
-//            List<ProductDTO> products = productService.findByMultiFields(productSearchRequest);
-//            return buildResponse(products, StringConstant.PRODUCT_NAME_NOT_FOUND);
-//        } catch (Exception ex) {
-//            throw new AppException(ErrorCode.INVALID_REQUEST);
-//        }
-//    }
-@GetMapping("/search")
-public ResponseEntity<APIResponse<List<ProductDTO>>> findProduct(
-        @RequestParam(required = false) String name,
-        @RequestParam(required = false) String category,
-        @RequestParam(required = false) String supplier,
-        @RequestParam(required = false) Double minPrice,
-        @RequestParam(required = false) Double maxPrice) {
 
-    log.info("Request to search product: name={}, category={}, supplier={}, minPrice={}, maxPrice={}",
-            name, category, supplier, minPrice, maxPrice);
-    try {
-        ProductSearchRequest productSearchRequest = new ProductSearchRequest();
-        productSearchRequest.setName(name);
-        productSearchRequest.setCategory(category);
-        productSearchRequest.setSupplier(supplier);
-        productSearchRequest.setMinPrice(minPrice);
-        productSearchRequest.setMaxPrice(maxPrice);
+    @GetMapping("/search")
+    public ResponseEntity<APIResponse<List<ProductDTO>>> findProduct(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String supplier,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice) {
 
-        List<ProductDTO> products = productService.findByMultiFields(productSearchRequest);
-        return buildResponse(products, StringConstant.PRODUCT_NAME_NOT_FOUND);
-    } catch (Exception ex) {
-        throw new AppException(ErrorCode.INVALID_REQUEST);
+        log.info("Request to search product: name={}, category={}, supplier={}, minPrice={}, maxPrice={}",
+                name, category, supplier, minPrice, maxPrice);
+        try {
+            ProductSearchRequest productSearchRequest = new ProductSearchRequest();
+            productSearchRequest.setName(name);
+            productSearchRequest.setCategory(category);
+            productSearchRequest.setSupplier(supplier);
+            productSearchRequest.setMinPrice(minPrice);
+            productSearchRequest.setMaxPrice(maxPrice);
+
+            List<ProductDTO> products = productService.findByMultiFields(productSearchRequest);
+            return buildResponse(products, StringConstant.PRODUCT_NAME_NOT_FOUND);
+        } catch (Exception ex) {
+            throw new AppException(ErrorCode.INVALID_REQUEST);
+        }
     }
-}
 
 
     private ResponseEntity<APIResponse<List<ProductDTO>>> buildResponse(List<ProductDTO> products, String notFoundMessage) {

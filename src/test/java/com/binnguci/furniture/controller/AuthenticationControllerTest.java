@@ -2,6 +2,7 @@ package com.binnguci.furniture.controller;
 
 import com.binnguci.furniture.controller.authentication.AuthenticationController;
 import com.binnguci.furniture.dto.request.AuthenticationRequest;
+import com.binnguci.furniture.dto.request.LogoutRequest;
 import com.binnguci.furniture.dto.response.APIResponse;
 import com.binnguci.furniture.dto.response.JwtResponse;
 import com.binnguci.furniture.enums.ErrorCode;
@@ -29,6 +30,7 @@ public class AuthenticationControllerTest {
 
     private AuthenticationRequest authenticationRequest;
     private JwtResponse jwtResponse;
+    private LogoutRequest logoutRequest;
 
     @BeforeEach
     void setUp() {
@@ -37,6 +39,9 @@ public class AuthenticationControllerTest {
         authenticationRequest.setPassword("testPass");
 
         jwtResponse = new JwtResponse("mockedJwtToken", "Bearer", 3600L);
+
+        logoutRequest = new LogoutRequest();
+        logoutRequest.setToken("mockedJwtToken");
     }
 
     @Test
@@ -45,7 +50,6 @@ public class AuthenticationControllerTest {
 
         ResponseEntity<APIResponse<JwtResponse>> response = authenticationController.authenticate(authenticationRequest);
 
-        // Kiểm tra kết quả trả về
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertEquals(ErrorCode.SUCCESS.getCode(), response.getBody().getCode());
@@ -63,7 +67,6 @@ public class AuthenticationControllerTest {
 
         ResponseEntity<APIResponse<JwtResponse>> response = authenticationController.authenticate(authenticationRequest);
 
-        // Kiểm tra kết quả trả về
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertEquals(ErrorCode.INVALID_REQUEST.getCode(), response.getBody().getCode());
@@ -72,5 +75,30 @@ public class AuthenticationControllerTest {
 
         verify(authenticationService).login(authenticationRequest);
     }
-}
 
+    @Test
+    public void testLogoutSuccess() {
+        doNothing().when(authenticationService).logout(any(LogoutRequest.class));
+
+        ResponseEntity<APIResponse<Void>> response = authenticationController.logout(logoutRequest);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertEquals(ErrorCode.SUCCESS.getCode(), response.getBody().getCode());
+        assertEquals(ErrorCode.SUCCESS.getMessage(), response.getBody().getMessage());
+
+        verify(authenticationService).logout(logoutRequest);
+    }
+
+    @Test
+    public void testLogoutFailure() {
+        doThrow(new RuntimeException("Logout failed")).when(authenticationService).logout(any(LogoutRequest.class));
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            authenticationController.logout(logoutRequest);
+        });
+
+        assertEquals("Logout failed", exception.getMessage());
+        verify(authenticationService).logout(logoutRequest);
+    }
+}

@@ -21,3 +21,11 @@ logging:
     org.springframework.web: DEBUG
   file:
     name: app.log
+#create jwt-secret-key:
+#1. python3:
+#import secrets
+#print(secrets.token_urlsafe(64))
+#2 bash:
+# openssl rand -base64 64
+jwt:
+  secret-key: "SjUvcKQ2lQDUTWbWFAvzUgkezufZY5tHjj1lD-8eXdP24vesaKn-ZXxcXpHQktwjq8DBoirBhBr5GXr5vsbXLA"

@@ -35,5 +35,4 @@ public class ProductEntity {
     private Set<OrderItemEntity> orderItems = new HashSet<>();
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<WishlistEntity> wishlist;
-
 }

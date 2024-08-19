@@ -7,6 +7,9 @@ import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.service.review.IReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +21,28 @@ import javax.validation.Valid;
 @RequestMapping("/api/reviews")
 public class ReviewController {
     private final IReviewService reviewService;
+
+    @GetMapping()
+    public ResponseEntity<APIResponse<Page<ReviewDTO>>> getAllReviews(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        try {
+            log.info("Request to get all reviews");
+            Pageable pageable = PageRequest.of(page, size);
+            Page<ReviewDTO> reviewPage = reviewService.findAll(pageable);
+
+            APIResponse<Page<ReviewDTO>> response = APIResponse.<Page<ReviewDTO>>builder()
+                    .code(ErrorCode.SUCCESS.getCode())
+                    .message(ErrorCode.SUCCESS.getMessage())
+                    .result(reviewPage)
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (Exception ex) {
+            throw new AppException(ErrorCode.INVALID_REQUEST);
+        }
+    }
+
 
     @PostMapping("/create")
     public ResponseEntity<APIResponse<ReviewDTO>> createReview(@Valid @RequestBody ReviewDTO reviewDTO) {

@@ -22,6 +22,8 @@ public enum ErrorCode {
     NOTIFICATION_EMPTY(204, "Notification empty"),
     FOUND(200, "Found"),
     NOT_FOUND(404, "Not found"),
+    EMAIL_ALREADY_EXISTS(400, "Email already exists"),
+    USERNAME_ALREADY_EXISTS(400, "Username already exists"),
     INVALID_PASSWORD(400, "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character");
 
     ErrorCode(int code, String message) {

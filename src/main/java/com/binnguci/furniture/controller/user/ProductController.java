@@ -25,21 +25,10 @@ import java.util.List;
 public class ProductController {
     private final IProductService productService;
 
-//    @GetMapping
-//    public ResponseEntity<APIResponse<List<ProductDTO>>> findAll() {
-//        log.info("Request to get all products");
-//        try {
-//            List<ProductDTO> products = productService.findAll();
-//            return buildResponse(products, StringConstant.PRODUCT_NAME_NOT_FOUND);
-//        } catch (Exception ex) {
-//            throw new AppException(ErrorCode.INVALID_REQUEST);
-//        }
-//    }
-
     @GetMapping
     public ResponseEntity<APIResponse<Page<ProductDTO>>> findAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "2") int size) {
+            @RequestParam(defaultValue = "9") int size) {
         try {
             log.info("Request to get all products");
             Pageable pageable = PageRequest.of(page, size);

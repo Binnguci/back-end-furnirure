@@ -31,4 +31,17 @@ public class StringConstant {
     public static final String PRODUCT_NAME_EXIST_OTHER_DELETE = "Product name already exist in other product";
     public static final String PRODUCT_ID_EXIST_OTHER_DELETE = "Product id already exist in other product";
     public static final String PRODUCT_NAME_EXIST_OTHER_UPDATE_DELETE = "Product name already exist in other product";
+
+    public static final String USER_NOT_FOUND = "User not found";
+    public static final String USER_NAME_NOT_FOUND = "User name not found";
+    public static final String USER_ID_NOT_FOUND = "User id not found";
+    public static final String USER_NAME_REQUIRED = "User name is required";
+    public static final String USER_EMAIL_REQUIRED = "User email is required";
+    public static final String USER_PASSWORD_REQUIRED = "User password is required";
+    public static final String USER_ROLE_REQUIRED = "User role is required";
+    public static final String USER_NAME_INVALID = "User name is invalid";
+    public static final String USER_EMAIL_INVALID = "User email is invalid";
+    public static final String USER_PASSWORD_INVALID = "User password is invalid";
+    public static final String USER_ROLE_INVALID = "User role is invalid";
+
 }

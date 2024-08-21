@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface IReviewService {
     Page<ReviewDTO> findAll(Pageable pageable);
+
     ReviewDTO updateAndCreate(ReviewDTO reviewDTO);
+
     ReviewDTO delete(Long id);
 }

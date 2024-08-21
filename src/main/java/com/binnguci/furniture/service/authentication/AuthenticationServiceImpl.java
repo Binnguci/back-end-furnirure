@@ -63,6 +63,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
     }
+
     private void extractJwtIDAndSaveToken(String token) {
         log.info("Extracting JWT ID from token: {}", token);
         String jwtID = jwtTokenUtil.extractJwtID(token);

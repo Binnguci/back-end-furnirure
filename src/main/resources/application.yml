@@ -16,11 +16,23 @@ spring:
   devtools:
     restart:
       enabled: true
-logging:
-  level:
-    org.springframework.web: DEBUG
-  file:
-    name: app.log
+#logging:
+#  level:
+#    org.springframework.web: DEBUG
+#  file:
+#    name: app.log
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tthanhbinh30041975@gmail.com
+    password: Thanhbinh30041975
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 #create jwt-secret-key:
 #1. python3:
 #import secrets

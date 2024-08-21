@@ -1,11 +1,13 @@
 spring:
   application:
     name: furniture
-  datasource:
-    url: jdbc:mysql://localhost:3306/furniture
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  profiles:
+    active: dev
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/furniture
+#    username:
+#    password:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: none
@@ -16,22 +18,17 @@ spring:
   devtools:
     restart:
       enabled: true
-#logging:
-#  level:
-#    org.springframework.web: DEBUG
-#  file:
-#    name: app.log
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: tthanhbinh30041975@gmail.com
-    password: Thanhbinh30041975
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username:
+#    password:
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
 
 #create jwt-secret-key:
 #1. python3:
@@ -39,5 +36,5 @@ spring:
 #print(secrets.token_urlsafe(64))
 #2 bash:
 # openssl rand -base64 64
-jwt:
-  secret-key: "SjUvcKQ2lQDUTWbWFAvzUgkezufZY5tHjj1lDs8eXdP24vesaKnsZXxcXpHQktwjq8DBoirBhBr5GXr5vsbXLA"
+#jwt:
+#  secret-key:

@@ -1,6 +1,5 @@
 package com.binnguci.furniture.controller.authentication;
 
-import com.binnguci.furniture.dto.UserDTO;
 import com.binnguci.furniture.dto.request.AuthenticationRequest;
 import com.binnguci.furniture.dto.request.LogoutRequest;
 import com.binnguci.furniture.dto.response.APIResponse;

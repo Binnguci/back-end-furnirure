@@ -9,8 +9,12 @@ import java.util.List;
 
 public interface IProductService {
     ProductDTO findById(Integer id);
+
     Page<ProductDTO> findAll(Pageable pageable);
+
     List<ProductDTO> findByMultiFields(ProductSearchRequest productSearchRequest);
+
     ProductDTO updateAndSave(ProductDTO productDTO);
+
     ProductDTO delete(Integer id);
 }

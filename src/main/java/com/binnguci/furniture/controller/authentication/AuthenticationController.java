@@ -25,32 +25,32 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<APIResponse<JwtResponse>> authenticate(@RequestBody @Valid AuthenticationRequest request) {
+        log.info("Login request: {}", request);
         JwtResponse jwtObj = authenticationService.login(request);
         if (jwtObj != null) {
-            APIResponse<JwtResponse> response = APIResponse.<JwtResponse>builder()
-                    .code(ErrorCode.SUCCESS.getCode())
-                    .message(ErrorCode.SUCCESS.getMessage())
-                    .result(jwtObj)
-                    .build();
-            return ResponseEntity.ok(response);
+            return buildResponse(jwtObj, ErrorCode.SUCCESS);
         } else {
-            APIResponse<JwtResponse> response = APIResponse.<JwtResponse>builder()
-                    .code(ErrorCode.INVALID_REQUEST.getCode())
-                    .message(ErrorCode.INVALID_REQUEST.getMessage())
-                    .build();
-            return ResponseEntity.ok(response);
+            return buildResponse(null, ErrorCode.INVALID_REQUEST);
         }
-
     }
 
     @PostMapping("/logout")
     public ResponseEntity<APIResponse<Void>> logout(@RequestBody @Valid LogoutRequest request) {
+        log.info("Logout request: {}", request);
         authenticationService.logout(request);
-        APIResponse<Void> response = APIResponse.<Void>builder()
-                .code(ErrorCode.SUCCESS.getCode())
-                .message(ErrorCode.SUCCESS.getMessage())
+        return buildResponse(null, ErrorCode.SUCCESS);
+    }
+
+
+    private <T> ResponseEntity<APIResponse<T>> buildResponse(T result, ErrorCode errorCode) {
+        log.info("Response: {}", errorCode);
+        APIResponse<T> response = APIResponse.<T>builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .result(result)
                 .build();
         return ResponseEntity.ok(response);
     }
+
 
 }

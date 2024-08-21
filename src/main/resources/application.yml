@@ -40,4 +40,4 @@ spring:
 #2 bash:
 # openssl rand -base64 64
 jwt:
-  secret-key: "SjUvcKQ2lQDUTWbWFAvzUgkezufZY5tHjj1lD-8eXdP24vesaKn-ZXxcXpHQktwjq8DBoirBhBr5GXr5vsbXLA"
+  secret-key: "SjUvcKQ2lQDUTWbWFAvzUgkezufZY5tHjj1lDs8eXdP24vesaKnsZXxcXpHQktwjq8DBoirBhBr5GXr5vsbXLA"

@@ -1,5 +1,6 @@
 package com.binnguci.furniture.entity;
 
+import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
 import jakarta.websocket.SendHandler;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "products")
+@Table(name = DatabaseConstant.PRODUCT_TABLE)
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

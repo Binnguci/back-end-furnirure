@@ -1,5 +1,6 @@
 package com.binnguci.furniture.entity;
 
+import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user_logs")
+@Table(name = DatabaseConstant.USER_LOG_TABLE)
 public class UserLogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

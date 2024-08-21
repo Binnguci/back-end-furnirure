@@ -1,5 +1,6 @@
 package com.binnguci.furniture.entity;
 
+import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "reviews")
+@Table(name = DatabaseConstant.REVIEW_TABLE)
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

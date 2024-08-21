@@ -37,8 +37,13 @@ public class AuthenticationController {
     @PostMapping("/logout")
     public ResponseEntity<APIResponse<Void>> logout(@RequestBody @Valid LogoutRequest request) {
         log.info("Logout request: {}", request);
-        authenticationService.logout(request);
-        return buildResponse(null, ErrorCode.SUCCESS);
+        try{
+            authenticationService.logout(request);
+            return buildResponse(null, ErrorCode.SUCCESS);
+        } catch (Exception e) {
+            return buildResponse(null, ErrorCode.INVALID_REQUEST);
+        }
+
     }
 
 

@@ -65,7 +65,7 @@ public class ProductController {
             productSearchRequest.setMaxPrice(maxPrice);
 
             List<ProductDTO> products = productService.findByMultiFields(productSearchRequest);
-            return buildResponse(products, StringConstant.PRODUCT_NAME_NOT_FOUND);
+            return buildResponse(products, StringConstant.PRODUCT_NOT_FOUND);
         } catch (Exception ex) {
             throw new AppException(ErrorCode.INVALID_REQUEST);
         }

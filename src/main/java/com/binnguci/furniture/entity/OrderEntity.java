@@ -1,5 +1,6 @@
 package com.binnguci.furniture.entity;
 
+import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "orders")
+@Table(name = DatabaseConstant.ORDER_TABLE)
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,7 @@
 package com.binnguci.furniture.service.user;
 
+import com.binnguci.furniture.constant.DatabaseConstant;
+import com.binnguci.furniture.constant.RoleConstant;
 import com.binnguci.furniture.entity.UserEntity;
 import com.binnguci.furniture.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         SimpleGrantedAuthority authority = user.getRole() != null
                 ? new SimpleGrantedAuthority(user.getRole().getName())
-                : new SimpleGrantedAuthority("ROLE_USER");
+                : new SimpleGrantedAuthority(RoleConstant.USER);
 
         log.info("User found: {}", user.getUsername());
 

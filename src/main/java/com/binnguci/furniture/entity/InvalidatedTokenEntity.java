@@ -1,5 +1,6 @@
 package com.binnguci.furniture.entity;
 
+import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,10 +13,10 @@ import java.util.Date;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "invalidated_tokens")
+@Table(name = DatabaseConstant.INVALIDATED_TOKENS_TABLE)
 public class InvalidatedTokenEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "token_id")
     private String tokenId;
     private Date expired;
 }

@@ -6,4 +6,5 @@ import com.binnguci.furniture.dto.response.APIResponse;
 
 public interface IUserService {
     UserDTO register(RegisterRequest registerRequest);
+    UserDTO findByUsername(String username);
 }

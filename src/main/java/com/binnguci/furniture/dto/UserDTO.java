@@ -24,7 +24,8 @@ public class UserDTO {
     private String oauth2ProfilePicture;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Set<RoleDTO> roles;
+    private RoleDTO role;
+    private CartDTO cart;
     private Set<OrderDTO> orders;
     private Set<WishlistDTO> wishlist;
 }

@@ -37,20 +37,17 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         Authentication authentication = authenticate(request.getUsername(), request.getPassword());
         log.info("User {} is authenticated: {}", request.getUsername(), authentication.isAuthenticated());
         UserDetails user = userDetailsService.loadUserByUsername(request.getUsername());
-
         if (user == null) {
             throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
-
-        boolean isAuthenticated = authentication.isAuthenticated();
-        String token = isAuthenticated ? jwtTokenUtil.generateToken(user) : null;
-
-        return new JwtResponse(token, System.currentTimeMillis() + jwtTokenUtil.getJwtTokenValidity());
+        String token = jwtTokenUtil.generateToken(user);
+        long expiryTime = System.currentTimeMillis() + jwtTokenUtil.getJwtTokenValidity();
+        return new JwtResponse(token, expiryTime);
     }
 
     @Override
     public void logout(LogoutRequest request) {
-        log.info("Logging out user: {}", request.getToken());
+        log.info("Logging out user with token: {}", request.getToken());
         extractJwtIDAndSaveToken(request.getToken());
         SecurityContextHolder.clearContext();
     }
@@ -60,19 +57,24 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         try {
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException | BadCredentialsException e) {
+            log.error("Authentication failed for user: {}", username, e);
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
     }
 
     private void extractJwtIDAndSaveToken(String token) {
-        log.info("Extracting JWT ID from token: {}", token);
+        log.info("Extracting JWT ID from token");
         String jwtID = jwtTokenUtil.extractJwtID(token);
         Date expired = jwtTokenUtil.extractExpiration(token);
 
-        InvalidatedTokenEntity invalidatedToken = InvalidatedTokenEntity.builder()
+        InvalidatedTokenEntity invalidatedToken = createInvalidatedTokenEntity(jwtID, expired);
+        invalidatedTokenRepository.save(invalidatedToken);
+    }
+
+    private InvalidatedTokenEntity createInvalidatedTokenEntity(String jwtID, Date expired) {
+        return InvalidatedTokenEntity.builder()
                 .tokenId(jwtID)
                 .expired(expired)
                 .build();
-        invalidatedTokenRepository.save(invalidatedToken);
     }
 }

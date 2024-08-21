@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class UserLogDTO {
-    private Integer id;
+    private Long id;
     private String level;
     private String ip;
     private String action;

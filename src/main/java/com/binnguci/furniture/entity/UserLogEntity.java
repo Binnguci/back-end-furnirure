@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class UserLogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String level;
     private String ip;
     private String action;

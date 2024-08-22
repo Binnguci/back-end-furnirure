@@ -3,8 +3,8 @@ package com.binnguci.furniture.controller;
 
 import com.binnguci.furniture.controller.user.UserController;
 import com.binnguci.furniture.dto.UserDTO;
-import com.binnguci.furniture.dto.request.RegisterRequest;
-import com.binnguci.furniture.dto.response.APIResponse;
+import com.binnguci.furniture.domain.request.RegisterRequest;
+import com.binnguci.furniture.domain.response.APIResponse;
 import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.service.user.IUserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +34,6 @@ class UserControllerTest {
         RegisterRequest request = RegisterRequest.builder()
                 .username("testuser")
                 .email("test@example.com")
-                .phone("1234567890")
                 .password("password")
                 .build();
 
@@ -56,7 +55,6 @@ class UserControllerTest {
         RegisterRequest request = RegisterRequest.builder()
                 .username("testuser")
                 .email("test@example.com")
-                .phone("1234567890")
                 .password("password")
                 .build();
 

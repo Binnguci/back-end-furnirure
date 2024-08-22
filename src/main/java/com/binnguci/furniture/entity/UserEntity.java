@@ -25,6 +25,12 @@ public class UserEntity {
     private String phone;
     private String address;
     private Short enabled;
+    @Column(name = "full_name")
+    private String fullName;
+    @Column(name = "otp")
+    private String otp;
+    @Column(name = "otp_expiry")
+    private LocalDateTime otpExpiry;
     @Column(name = "oauth2_id")
     private String oauth2Id;
     @Column(name = "oauth2_email")
@@ -62,7 +68,7 @@ public class UserEntity {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (enabled == null) {
-            enabled = 1;
+            enabled = 0;
         }
     }
 

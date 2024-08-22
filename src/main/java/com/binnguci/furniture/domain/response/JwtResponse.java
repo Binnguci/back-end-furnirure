@@ -1,4 +1,4 @@
-package com.binnguci.furniture.dto.response;
+package com.binnguci.furniture.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

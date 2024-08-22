@@ -1,4 +1,4 @@
-package com.binnguci.furniture.dto.response;
+package com.binnguci.furniture.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

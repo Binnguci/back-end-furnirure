@@ -1,7 +1,7 @@
 package com.binnguci.furniture.controller.user;
 
 import com.binnguci.furniture.dto.ReviewDTO;
-import com.binnguci.furniture.dto.response.APIResponse;
+import com.binnguci.furniture.domain.response.APIResponse;
 import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.service.review.IReviewService;
@@ -27,68 +27,39 @@ public class ReviewController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        try {
-            log.info("Request to get all reviews");
-            Pageable pageable = PageRequest.of(page, size);
-            Page<ReviewDTO> reviewPage = reviewService.findAll(pageable);
-
-            APIResponse<Page<ReviewDTO>> response = APIResponse.<Page<ReviewDTO>>builder()
-                    .code(ErrorCode.SUCCESS.getCode())
-                    .message(ErrorCode.SUCCESS.getMessage())
-                    .result(reviewPage)
-                    .build();
-            return ResponseEntity.ok(response);
-        } catch (Exception ex) {
-            throw new AppException(ErrorCode.INVALID_REQUEST);
-        }
+        log.info("Request to get all reviews");
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ReviewDTO> reviewPage = reviewService.findAll(pageable);
+        return buildResponse(reviewPage, ErrorCode.SUCCESS);
     }
-
 
     @PostMapping("/create")
     public ResponseEntity<APIResponse<ReviewDTO>> createReview(@Valid @RequestBody ReviewDTO reviewDTO) {
         log.info("Request to create review");
-        try {
-            ReviewDTO review = reviewService.updateAndCreate(reviewDTO);
-            APIResponse<ReviewDTO> response = APIResponse.<ReviewDTO>builder()
-                    .code(ErrorCode.CREATE_SUCCESS.getCode())
-                    .message(ErrorCode.CREATE_SUCCESS.getMessage())
-                    .result(review)
-                    .build();
-            return ResponseEntity.ok(response);
-        } catch (Exception ex) {
-            throw new AppException(ErrorCode.CREATE_FAILED);
-        }
+        ReviewDTO review = reviewService.updateAndCreate(reviewDTO);
+        return buildResponse(review, ErrorCode.CREATE_SUCCESS);
     }
 
     @PutMapping("/update")
     public ResponseEntity<APIResponse<ReviewDTO>> updateReview(@RequestBody ReviewDTO reviewDTO) {
         log.info("Request to update review");
-        try {
-            ReviewDTO review = reviewService.updateAndCreate(reviewDTO);
-            APIResponse<ReviewDTO> response = APIResponse.<ReviewDTO>builder()
-                    .code(ErrorCode.UPDATE_SUCCESS.getCode())
-                    .message(ErrorCode.UPDATE_SUCCESS.getMessage())
-                    .result(review)
-                    .build();
-            return ResponseEntity.ok(response);
-        } catch (Exception ex) {
-            throw new AppException(ErrorCode.UPDATE_FAILED);
-        }
+        ReviewDTO review = reviewService.updateAndCreate(reviewDTO);
+        return buildResponse(review, ErrorCode.UPDATE_SUCCESS);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<APIResponse<ReviewDTO>> deleteReview(@PathVariable Long id) {
         log.info("Request to delete review with id: {}", id);
-        try {
-            ReviewDTO review = reviewService.delete(id);
-            APIResponse<ReviewDTO> response = APIResponse.<ReviewDTO>builder()
-                    .code(ErrorCode.DELETE_SUCCESS.getCode())
-                    .message(ErrorCode.DELETE_SUCCESS.getMessage())
-                    .result(review)
-                    .build();
-            return ResponseEntity.ok(response);
-        } catch (Exception ex) {
-            throw new AppException(ErrorCode.DELETE_FAILED);
-        }
+        ReviewDTO review = reviewService.delete(id);
+        return buildResponse(review, ErrorCode.DELETE_SUCCESS);
+    }
+
+    private <T> ResponseEntity<APIResponse<T>> buildResponse(T result, ErrorCode errorCode) {
+        APIResponse<T> response = APIResponse.<T>builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .result(result)
+                .build();
+        return ResponseEntity.ok(response);
     }
 }

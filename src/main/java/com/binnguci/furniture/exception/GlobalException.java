@@ -1,6 +1,6 @@
 package com.binnguci.furniture.exception;
 
-import com.binnguci.furniture.dto.response.APIResponse;
+import com.binnguci.furniture.domain.response.APIResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

@@ -1,7 +1,7 @@
 package com.binnguci.furniture.controller.admin;
 
 import com.binnguci.furniture.dto.ProductDTO;
-import com.binnguci.furniture.dto.response.APIResponse;
+import com.binnguci.furniture.domain.response.APIResponse;
 import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.service.product.IProductService;
@@ -14,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController(value = "productControllerOfAdmin")
 @RequiredArgsConstructor

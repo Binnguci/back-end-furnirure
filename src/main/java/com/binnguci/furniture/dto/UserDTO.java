@@ -14,6 +14,7 @@ import java.util.Set;
 public class UserDTO {
     private Integer id;
     private String username;
+    private String fullName;
     private String email;
     private String phone;
     private String address;
@@ -22,6 +23,8 @@ public class UserDTO {
     private String oauth2Email;
     private String oauth2Provider;
     private String oauth2ProfilePicture;
+    private String otp;
+    private LocalDateTime otpExpiry;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private RoleDTO role;

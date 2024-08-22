@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+
     // Success
     SUCCESS(200, "Success"),
     DELETE_SUCCESS(200, "Delete success"),
@@ -27,8 +28,11 @@ public enum ErrorCode {
     USERNAME_ALREADY_EXISTS(409, "Username already exists"),  // Conflict
     INVALID_PASSWORD(400, "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"),
     ROLE_NOT_FOUND(404, "Role not found"),
+    OTP_EXPIRED(400, "OTP expired"),
+    INVALID_OTP(400, "Invalid OTP"),
+    ACCOUNT_NOT_VERIFIED(400, "Account not verified"),
 
-    // Server Errors
+    // Server Error
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     SERVICE_UNAVAILABLE(503, "Service Unavailable"),
     GATEWAY_TIMEOUT(504, "Gateway Timeout");

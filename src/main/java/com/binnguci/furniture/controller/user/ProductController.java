@@ -2,8 +2,8 @@ package com.binnguci.furniture.controller.user;
 
 import com.binnguci.furniture.constant.StringConstant;
 import com.binnguci.furniture.dto.ProductDTO;
-import com.binnguci.furniture.dto.request.ProductSearchRequest;
-import com.binnguci.furniture.dto.response.APIResponse;
+import com.binnguci.furniture.domain.request.ProductSearchRequest;
+import com.binnguci.furniture.domain.response.APIResponse;
 import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.service.product.IProductService;

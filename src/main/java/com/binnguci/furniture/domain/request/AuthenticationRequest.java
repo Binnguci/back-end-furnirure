@@ -1,4 +1,4 @@
-package com.binnguci.furniture.dto.request;
+package com.binnguci.furniture.domain.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

@@ -1,7 +1,7 @@
 package com.binnguci.furniture.service.product;
 
 import com.binnguci.furniture.dto.ProductDTO;
-import com.binnguci.furniture.dto.request.ProductSearchRequest;
+import com.binnguci.furniture.domain.request.ProductSearchRequest;
 import com.binnguci.furniture.entity.ProductEntity;
 import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;

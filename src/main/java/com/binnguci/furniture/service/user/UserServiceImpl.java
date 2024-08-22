@@ -1,8 +1,8 @@
 package com.binnguci.furniture.service.user;
 
-import com.binnguci.furniture.dto.CartDTO;
 import com.binnguci.furniture.dto.UserDTO;
-import com.binnguci.furniture.dto.request.RegisterRequest;
+import com.binnguci.furniture.domain.request.AccountVerifyRequest;
+import com.binnguci.furniture.domain.request.RegisterRequest;
 import com.binnguci.furniture.entity.RoleEntity;
 import com.binnguci.furniture.entity.UserEntity;
 import com.binnguci.furniture.enums.ErrorCode;
@@ -10,11 +10,13 @@ import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.mapper.UserMapper;
 import com.binnguci.furniture.repository.IRoleRepository;
 import com.binnguci.furniture.repository.IUserRepository;
+import com.binnguci.furniture.service.email.IEmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -25,6 +27,8 @@ public class UserServiceImpl implements IUserService {
     private final IRoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final IEmailService emailService;
+
 
     @Override
     public UserDTO register(RegisterRequest registerRequest) {
@@ -33,11 +37,74 @@ public class UserServiceImpl implements IUserService {
         String encodedPassword = encodePassword(registerRequest.getPassword());
         UserEntity user = createUserEntity(registerRequest, encodedPassword);
         assignDefaultRoles(user);
+
+        // tạo và gán otp
+        String otp = generateOTP();
+        user.setOtp(otp);
+        user.setOtpExpiry(LocalDateTime.now().plusMinutes(10));
+
+        //Gửi mail
+        emailService.sendMailOTP(user.getEmail(), otp);
+
         UserEntity savedUser = saveUser(user);
         UserDTO userDTO = UserServiceImpl.this.findByUsername(savedUser.getUsername());
         log.info("Successfully registered user with username: {}", savedUser.getUsername());
         return userMapper.toDTO(savedUser);
     }
+
+    @Override
+    public void forgetPassword(String email) {
+        log.info("Request to forget password for email: {}", email);
+
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        // tạo và gán otp
+        String otp = generateOTP();
+        user.setOtp(otp);
+        user.setOtpExpiry(LocalDateTime.now().plusMinutes(10));
+        userRepository.save(user);
+        //Gửi mail
+        emailService.sendMailOTP(user.getEmail(), otp);
+        log.info("OTP sent successfully to email: {}", email);
+    }
+
+    @Override
+    public void changePassword(String email, String password) {
+        log.info("Request to change password for email: {}", email);
+
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        user.setPassword(encodePassword(password));
+        userRepository.save(user);
+        log.info("Password changed successfully for email: {}", email);
+    }
+
+    @Override
+    public UserDTO getInformationOfUser(String username) {
+        log.info("Request to get information of user with username: {}", username);
+        UserEntity userEntity = userRepository.findByEmail(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        log.info("Successfully found user with username: {}", username);
+        return userMapper.toDTO(userEntity);
+    }
+
+    @Override
+    public UserDTO updateInformationOfUser(UserDTO userDTO) {
+        log.info("Request to update information of user with username: {}", userDTO.getUsername());
+
+        UserEntity userEntity = userRepository.findByUsername(userDTO.getUsername())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        userEntity.setFullName(userDTO.getFullName());
+        userEntity.setAddress(userDTO.getAddress());
+        userEntity.setPhone(userDTO.getPhone());
+
+
+        return null;
+    }
+
 
     @Override
     public UserDTO findByUsername(String username) {
@@ -48,18 +115,56 @@ public class UserServiceImpl implements IUserService {
         return userMapper.toDTO(user);
     }
 
+    @Override
+    public void verifyAccount(AccountVerifyRequest accountVerifyRequest) {
+        log.info("Request to verify account for email: {}", accountVerifyRequest.getEmail());
+
+        UserEntity userEntity = userRepository.findByEmail(accountVerifyRequest.getEmail())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        // Check otp expiry
+        if (userEntity.getOtpExpiry().isBefore(LocalDateTime.now())) {
+            throw new AppException(ErrorCode.OTP_EXPIRED);
+        }
+        // Check otp is valid
+        if (!userEntity.getOtp().equals(accountVerifyRequest.getOtp())) {
+            throw new AppException(ErrorCode.INVALID_OTP);
+        }
+
+        // Gán dữ liệu mới
+        userEntity.setEnabled((short) 1);
+        userEntity.setOtp(null);
+        userEntity.setOtpExpiry(null);
+
+        userRepository.save(userEntity);
+        log.info("Account verified successfully for email: {}", accountVerifyRequest.getEmail());
+    }
+
 
     private void validateRegisterRequest(RegisterRequest registerRequest) {
         log.info("Request to validate register request");
         Optional<UserEntity> userByName = userRepository.findByUsername(registerRequest.getUsername());
         Optional<UserEntity> userByEmail = userRepository.findByEmail(registerRequest.getEmail());
         if (userByName.isPresent()) {
-            log.info("Username already exists");
+            log.warn("Username already exists");
             throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
         }
         if (userByEmail.isPresent()) {
-            log.info("Email already exists");
-            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+            log.warn("Email already exists");
+            UserEntity existingUser = userByEmail.get();
+            if (existingUser.getEnabled() == 0) {
+
+                String newOtp = generateOTP();
+                existingUser.setOtp(newOtp);
+                existingUser.setOtpExpiry(LocalDateTime.now().plusMinutes(10));
+                userRepository.save(existingUser);
+                // gửi lại otp
+                emailService.sendMailOTP(existingUser.getEmail(), newOtp);
+
+                throw new AppException(ErrorCode.ACCOUNT_NOT_VERIFIED);
+            } else {
+                throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+            }
         }
     }
 
@@ -85,5 +190,10 @@ public class UserServiceImpl implements IUserService {
         log.info("Request to save user");
         return userRepository.save(user);
     }
+
+    private String generateOTP() {
+        return String.valueOf((int) (Math.random() * 900000) + 100000);
+    }
+
 }
 

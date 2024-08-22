@@ -1,6 +1,6 @@
 package com.binnguci.furniture.repository.custom.product;
 
-import com.binnguci.furniture.dto.request.ProductSearchRequest;
+import com.binnguci.furniture.domain.request.ProductSearchRequest;
 import com.binnguci.furniture.entity.CategoryEntity;
 import com.binnguci.furniture.entity.ProductEntity;
 import com.binnguci.furniture.entity.SupplierEntity;
@@ -8,7 +8,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

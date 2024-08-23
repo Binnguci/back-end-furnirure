@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Table(name = DatabaseConstant.CART_ITEMS_TABLE)
 public class CartItemEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
     private Integer quantity;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")

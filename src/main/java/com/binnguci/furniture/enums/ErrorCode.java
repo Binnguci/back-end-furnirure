@@ -31,6 +31,8 @@ public enum ErrorCode {
     OTP_EXPIRED(400, "OTP expired"),
     INVALID_OTP(400, "Invalid OTP"),
     ACCOUNT_NOT_VERIFIED(400, "Account not verified"),
+    CART_NOT_FOUND(400, "Cart not found"),
+    CART_ITEM_NOT_FOUND(400, "Cart item not found"),
 
     // Server Error
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),

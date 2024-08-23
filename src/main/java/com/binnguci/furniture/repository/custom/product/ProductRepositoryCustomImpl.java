@@ -12,42 +12,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductRepositoryCustomImpl implements IProductRepositoryCustom {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    private List<Predicate> buildPredicates(ProductSearchRequest productSearchRequest, CriteriaBuilder cb,
-                                            Root<ProductEntity> product,
-                                            Join<ProductEntity, CategoryEntity> categoryJoin,
-                                            Join<ProductEntity, SupplierEntity> supplierJoin) {
-
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (productSearchRequest.getName() != null) {
-            predicates.add(cb.like(product.get("name"), "%" + productSearchRequest.getName() + "%"));
-        }
-
-        if (productSearchRequest.getCategory() != null) {
-            predicates.add(cb.equal(categoryJoin.get("name"), productSearchRequest.getCategory()));
-        }
-
-        if (productSearchRequest.getSupplier() != null) {
-            predicates.add(cb.equal(supplierJoin.get("name"), productSearchRequest.getSupplier()));
-        }
-
-        if (productSearchRequest.getMinPrice() != null) {
-            predicates.add(cb.greaterThanOrEqualTo(product.get("price"), productSearchRequest.getMinPrice()));
-        }
-
-        if (productSearchRequest.getMaxPrice() != null) {
-            predicates.add(cb.lessThanOrEqualTo(product.get("price"), productSearchRequest.getMaxPrice()));
-        }
-
-        return predicates;
-    }
 
     @Override
     public List<ProductEntity> findAllMultiField(ProductSearchRequest productSearchRequest) {
@@ -67,5 +38,30 @@ public class ProductRepositoryCustomImpl implements IProductRepositoryCustom {
         return result;
     }
 
+    private List<Predicate> buildPredicates(ProductSearchRequest productSearchRequest,
+                                            CriteriaBuilder cb,
+                                            Root<ProductEntity> product,
+                                            Join<ProductEntity, CategoryEntity> categoryJoin,
+                                            Join<ProductEntity, SupplierEntity> supplierJoin) {
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        Optional.ofNullable(productSearchRequest.getName())
+                .ifPresent(name -> predicates.add(cb.like(product.get("name"), "%" + name + "%")));
+
+        Optional.ofNullable(productSearchRequest.getCategory())
+                .ifPresent(category -> predicates.add(cb.equal(categoryJoin.get("name"), category)));
+
+        Optional.ofNullable(productSearchRequest.getSupplier())
+                .ifPresent(supplier -> predicates.add(cb.equal(supplierJoin.get("name"), supplier)));
+
+        Optional.ofNullable(productSearchRequest.getMinPrice())
+                .ifPresent(minPrice -> predicates.add(cb.greaterThanOrEqualTo(product.get("price"), minPrice)));
+
+        Optional.ofNullable(productSearchRequest.getMaxPrice())
+                .ifPresent(maxPrice -> predicates.add(cb.lessThanOrEqualTo(product.get("price"), maxPrice)));
+
+        return predicates;
+    }
 }
 

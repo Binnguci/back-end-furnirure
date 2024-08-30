@@ -6,6 +6,8 @@ import org.mapstruct.factory.Mappers;
 import com.binnguci.furniture.entity.UserEntity;
 import com.binnguci.furniture.dto.UserDTO;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
@@ -16,4 +18,6 @@ public interface UserMapper {
     UserEntity toEntity(UserDTO userDTO);
 
     UserEntity toRequestToEntity(RegisterRequest registerRequest);
+
+    List<UserDTO> toListDTO(List<UserEntity> userEntities);
 }

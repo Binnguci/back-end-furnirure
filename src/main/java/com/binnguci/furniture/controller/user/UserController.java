@@ -54,7 +54,11 @@ public class UserController {
     }
 
     private <T> ResponseEntity<APIResponse<T>> buildResponse(T result, ErrorCode errorCode) {
-        APIResponse<T> response = APIResponse.<T>builder().code(errorCode.getCode()).message(errorCode.getMessage()).result(result).build();
+        APIResponse<T> response = APIResponse.<T>builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .result(result)
+                .build();
         return ResponseEntity.ok(response);
     }
 }

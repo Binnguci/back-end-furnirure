@@ -18,9 +18,7 @@ public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String comment;
-
     private Double rating;
 
     @ManyToOne(fetch = FetchType.LAZY)

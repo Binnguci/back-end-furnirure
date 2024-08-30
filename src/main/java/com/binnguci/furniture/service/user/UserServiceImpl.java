@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +30,17 @@ public class UserServiceImpl implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final IEmailService emailService;
 
+
+    @Override
+    public List<UserDTO> findAll() {
+        log.info("Request to get all users in service");
+        List<UserEntity> userEntities = userRepository.findAll();
+        if (!userEntities.isEmpty()) {
+            log.info("Successfully found all users");
+            return userMapper.toListDTO(userEntities);
+        }
+        return List.of();
+    }
 
     @Override
     public UserDTO register(RegisterRequest registerRequest) {
@@ -113,6 +125,20 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         log.info("Successfully found user by id: {}", username);
         return userMapper.toDTO(user);
+    }
+
+    @Override
+    public void blockAndUnBlockUser(Integer id) {
+        log.info("Request to block user with id: {}", id);
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        if (user.getEnabled() == 1) {
+            user.setEnabled((short) 0);
+        } else {
+            user.setEnabled((short) 1);
+        }
+        userRepository.save(user);
+        log.info("User with id: {} blocked/unblocked successfully", id);
     }
 
     @Override

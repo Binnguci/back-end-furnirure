@@ -1,6 +1,6 @@
 package com.binnguci.furniture.jwt;
 
-import com.binnguci.furniture.service.user.UserDetailServiceImpl;
+import com.binnguci.furniture.config.UserDetailServiceImpl;
 import com.binnguci.furniture.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

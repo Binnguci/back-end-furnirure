@@ -1,22 +1,21 @@
 package com.binnguci.furniture.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserLogDTO {
-    private Long id;
-    private String level;
-    private String ip;
-    private String action;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private UserDTO user;
+    Long id;
+    String level;
+    String ip;
+    String action;
+    Instant createdAt;
+    Instant updatedAt;
+    UserDTO user;
 }

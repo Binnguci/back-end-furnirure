@@ -2,36 +2,30 @@ package com.binnguci.furniture.entity;
 
 import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.IdGeneratorType;
-
-import java.time.LocalDateTime;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = DatabaseConstant.REVIEW_TABLE)
-public class ReviewEntity {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ReviewEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String comment;
-    private Double rating;
+    Long id;
+    String comment;
+    Double rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private ProductEntity product;
+    ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserEntity user;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    UserEntity user;
 }

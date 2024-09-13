@@ -1,9 +1,7 @@
 package com.binnguci.furniture.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
@@ -11,9 +9,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartDTO {
-    private Integer id;
-    private Integer quantity;
-    private UserDTO user;
-    private Set<CartItemDTO> cartItems;
+    Integer id;
+    Integer quantity;
+    UserDTO user;
+    Set<CartItemDTO> cartItems;
 }

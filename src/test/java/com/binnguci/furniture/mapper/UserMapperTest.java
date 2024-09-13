@@ -5,7 +5,7 @@ import com.binnguci.furniture.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,8 +23,8 @@ public class UserMapperTest {
         userEntity.setPhone("123456789");
         userEntity.setAddress("Test Address");
         userEntity.setEnabled((short) 1);
-        userEntity.setCreatedAt(LocalDateTime.now());
-        userEntity.setUpdatedAt(LocalDateTime.now());
+        userEntity.setCreatedAt(Instant.now());
+        userEntity.setUpdatedAt(Instant.now());
 
         UserDTO userDTO = mapper.toDTO(userEntity);
 
@@ -48,8 +48,8 @@ public class UserMapperTest {
         userDTO.setPhone("123456789");
         userDTO.setAddress("Test Address");
         userDTO.setEnabled((short) 1);
-        userDTO.setCreatedAt(LocalDateTime.now());
-        userDTO.setUpdatedAt(LocalDateTime.now());
+        userDTO.setCreatedAt(Instant.now());
+        userDTO.setUpdatedAt(Instant.now());
 
         UserEntity userEntity = mapper.toEntity(userDTO);
 

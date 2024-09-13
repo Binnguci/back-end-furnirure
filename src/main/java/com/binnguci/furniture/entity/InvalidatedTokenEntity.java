@@ -11,12 +11,12 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = DatabaseConstant.INVALIDATED_TOKENS_TABLE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class InvalidatedTokenEntity {
     @Id
     @Column(name = "token_id")
-    private String tokenId;
-    private Date expired;
+    String tokenId;
+    Date expired;
 }

@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController("userUserController")
@@ -19,7 +20,7 @@ public class UserController {
     private final IUserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<APIResponse<UserDTO>> register(@RequestBody @Valid RegisterRequest registerRequest) {
+    public ResponseEntity<APIResponse<UserDTO>> register(@Valid @RequestBody  RegisterRequest registerRequest) {
         log.info("Request to register user with username: {}", registerRequest.getUsername());
         UserDTO userDTO = userService.register(registerRequest);
         return buildResponse(userDTO, userDTO != null ? ErrorCode.CREATE_SUCCESS : ErrorCode.CREATE_FAILED);
@@ -59,7 +60,7 @@ public class UserController {
                 .message(errorCode.getMessage())
                 .result(result)
                 .build();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(response.getCode()).body(response);
     }
 }
 

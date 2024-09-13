@@ -1,34 +1,34 @@
 package com.binnguci.furniture.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDTO {
-    private Integer id;
-    private String username;
-    private String fullName;
-    private String email;
-    private String phone;
-    private String address;
-    private Short enabled;
-    private String oauth2Id;
-    private String oauth2Email;
-    private String oauth2Provider;
-    private String oauth2ProfilePicture;
-    private String otp;
-    private LocalDateTime otpExpiry;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private RoleDTO role;
-    private CartDTO cart;
-    private Set<OrderDTO> orders;
-    private Set<WishlistDTO> wishlist;
+    Integer id;
+    String username;
+    String fullName;
+    String email;
+    String phone;
+    String address;
+    Short enabled;
+    String oauth2Id;
+    String oauth2Email;
+    String oauth2Provider;
+    String oauth2ProfilePicture;
+    String otp;
+    Instant otpExpiry;
+    Instant createdAt;
+    Instant updatedAt;
+    RoleDTO role;
+    CartDTO cart;
+    Set<OrderDTO> orders;
+    Set<WishlistDTO> wishlist;
 }

@@ -2,11 +2,12 @@ package com.binnguci.furniture.entity;
 
 import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,25 +15,27 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = DatabaseConstant.ORDER_TABLE)
-public class OrderEntity {
+@Table(name = DatabaseConstant.ORDER_TABLE, indexes = {
+        @Index(name = "idx_order_total_price", columnList = "total_price"),
+        @Index(name = "idx_order_status", columnList = "status"),
+        @Index(name = "idx_order_user", columnList = "user_id"),
+        @Index(name = "idx_order_payment_method", columnList = "payment_method")
+})
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class OrderEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
     @Column(name = "total_price")
-    private Double totalPrice;
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    private String address;
-    private String status;
+    Double totalPrice;
+    String address;
+    String status;
     @Column(name = "payment_method")
-    private String paymentMethod;
+    String paymentMethod;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserEntity user;
+    UserEntity user;
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private Set<OrderItemEntity> orderItems = new HashSet<>();
+    Set<OrderItemEntity> orderItems = new HashSet<>();
 }
 

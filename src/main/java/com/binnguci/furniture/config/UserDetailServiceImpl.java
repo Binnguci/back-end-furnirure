@@ -1,6 +1,5 @@
-package com.binnguci.furniture.service.user;
+package com.binnguci.furniture.config;
 
-import com.binnguci.furniture.constant.DatabaseConstant;
 import com.binnguci.furniture.constant.RoleConstant;
 import com.binnguci.furniture.entity.UserEntity;
 import com.binnguci.furniture.repository.IUserRepository;

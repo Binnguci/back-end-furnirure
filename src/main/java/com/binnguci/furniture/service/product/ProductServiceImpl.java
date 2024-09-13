@@ -1,7 +1,7 @@
 package com.binnguci.furniture.service.product;
 
-import com.binnguci.furniture.dto.ProductDTO;
 import com.binnguci.furniture.domain.request.ProductSearchRequest;
+import com.binnguci.furniture.dto.ProductDTO;
 import com.binnguci.furniture.entity.ProductEntity;
 import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,11 +52,11 @@ public class ProductServiceImpl implements IProductService {
         ProductEntity productEntity = productMapper.toEntity(productDTO);
         if (productEntity.getId() == null) {
             log.info("Successfully to create product");
-            productEntity.setCreatedAt(LocalDateTime.now());
+            productEntity.setCreatedAt(Instant.now());
 
         } else {
             log.info("Successfully to update product");
-            productEntity.setUpdatedAt(LocalDateTime.now());
+            productEntity.setUpdatedAt(Instant.now());
         }
         log.info("Successfully updated or create product with id: {}", productDTO.getId());
         ProductEntity savedEntity = productRepository.save(productEntity);

@@ -31,7 +31,6 @@ public class UserServiceImpl implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final IEmailService emailService;
 
-
     @Override
     public List<UserDTO> findAll() {
         log.info("Request to get all users in service");

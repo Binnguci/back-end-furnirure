@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = DatabaseConstant.CART_TABLE)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CartEntity extends BaseEntity{
+public class CartEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;

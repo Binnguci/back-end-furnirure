@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.sql.DatabaseMetaData;
 import java.util.HashSet;
 import java.util.Set;
 

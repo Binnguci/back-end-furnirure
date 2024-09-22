@@ -176,6 +176,9 @@ public class UserServiceImpl implements IUserService {
         }
         if (userByEmail.isPresent()) {
             log.warn("Email already exists");
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+        if (userByEmail.isPresent()) {
             UserEntity existingUser = userByEmail.get();
             if (existingUser.getEnabled() == 0) {
 
@@ -183,7 +186,6 @@ public class UserServiceImpl implements IUserService {
                 existingUser.setOtp(newOtp);
                 existingUser.setOtpExpiry(Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant());
                 userRepository.save(existingUser);
-                // gửi lại otp
                 emailService.sendMailOTP(existingUser.getEmail(), newOtp);
 
                 throw new AppException(ErrorCode.ACCOUNT_NOT_VERIFIED);

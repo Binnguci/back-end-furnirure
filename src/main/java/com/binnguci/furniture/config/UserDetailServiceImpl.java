@@ -1,6 +1,7 @@
 package com.binnguci.furniture.config;
 
 import com.binnguci.furniture.constant.RoleConstant;
+import com.binnguci.furniture.constant.StringConstant;
 import com.binnguci.furniture.entity.UserEntity;
 import com.binnguci.furniture.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         log.info("Request to load user by username");
 
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() ->
-                new UsernameNotFoundException("User not found with username: " + username));
+                new UsernameNotFoundException(StringConstant.USER_NOT_FOUND + " : " + username));
 
         SimpleGrantedAuthority authority = user.getRole() != null
                 ? new SimpleGrantedAuthority(user.getRole().getName())

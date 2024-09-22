@@ -19,10 +19,10 @@ public class CartItemEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     String id;
     Integer quantity;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     CartEntity cart;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     ProductEntity product;
 }

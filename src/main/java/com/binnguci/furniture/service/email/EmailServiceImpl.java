@@ -1,5 +1,6 @@
 package com.binnguci.furniture.service.email;
 
+import com.binnguci.furniture.constant.StringConstant;
 import jakarta.annotation.PreDestroy;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -38,9 +39,9 @@ public class EmailServiceImpl implements IEmailService {
 
     private String generateOtpEmailContent(String otp) {
         if (otp == null || otp.isBlank()) {
-            throw new IllegalArgumentException("OTP không được rỗng hoặc trống");
+            throw new IllegalArgumentException(StringConstant.OTP_NUll);
         }
-        return String.format(TEMPLATE_OTP_EMAIL, otp);
+        return String.format(StringConstant.TEMPLATE_OTP_EMAIL, otp);
     }
 
 
@@ -78,24 +79,5 @@ public class EmailServiceImpl implements IEmailService {
         executorService.shutdown();
     }
 
-    private static final String TEMPLATE_OTP_EMAIL = """
-            <div style="font-family: Arial, sans-serif; color: #333;">
-                <p style="font-size: 16px;">Chào bạn,</p>
-                <p style="font-size: 16px;">
-                    Bạn đã yêu cầu lấy lại mật khẩu cho tài khoản của mình. Dưới đây là mã OTP để xác nhận:
-                </p>                        
-                <p style="font-size: 18px; font-weight: bold; color: #D19C97; text-align: center;">
-                    Mã OTP: %s
-                </p>
-                <p style="font-size: 16px;">
-                    Vui lòng nhập mã này vào ứng dụng để tiếp tục quá trình lấy lại mật khẩu.
-                </p>
-                <p style="font-size: 16px;">
-                    Nếu bạn không yêu cầu lấy lại mật khẩu, vui lòng bỏ qua email này.
-                </p>
-                <p style="font-size: 16px;">Trân trọng,</p>
-                <p style="font-size: 16px; font-style: italic;">Đội ngũ hỗ trợ</p>
-            </div>
-            """;
 
 }

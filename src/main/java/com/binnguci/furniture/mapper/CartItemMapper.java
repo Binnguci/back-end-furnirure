@@ -1,9 +1,9 @@
 package com.binnguci.furniture.mapper;
 
+import com.binnguci.furniture.dto.CartItemDTO;
+import com.binnguci.furniture.entity.CartItemEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import com.binnguci.furniture.entity.CartItemEntity;
-import com.binnguci.furniture.dto.CartItemDTO;
 
 @Mapper(componentModel = "spring")
 public interface CartItemMapper {

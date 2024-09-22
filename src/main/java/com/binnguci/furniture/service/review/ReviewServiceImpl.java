@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Service
 @Slf4j
@@ -33,10 +33,10 @@ public class ReviewServiceImpl implements IReviewService {
         log.info("Request to update and create review");
         ReviewEntity reviewEntity = reviewMapper.toEntity(reviewDTO);
         if (reviewEntity.getId() == null) {
-            reviewEntity.setCreatedAt(LocalDateTime.now());
+            reviewEntity.setCreatedAt(Instant.now());
             log.info("Successfully to create review");
         } else {
-            reviewEntity.setUpdatedAt(LocalDateTime.now());
+            reviewEntity.setUpdatedAt(Instant.now());
             log.info("Successfully to update review");
         }
         ReviewEntity savedEntity = reviewRepository.save(reviewEntity);

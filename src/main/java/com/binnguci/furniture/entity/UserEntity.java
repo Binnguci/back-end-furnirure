@@ -2,11 +2,13 @@ package com.binnguci.furniture.entity;
 
 import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,65 +17,49 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = DatabaseConstant.USER_TABLE)
-public class UserEntity {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class UserEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String username;
-    private String password;
-    private String email;
-    private String phone;
-    private String address;
-    private Short enabled;
+    Integer id;
+    String username;
+    String password;
+    String email;
+    String phone;
+    String address;
+    Short enabled;
     @Column(name = "full_name")
-    private String fullName;
+    String fullName;
     @Column(name = "otp")
-    private String otp;
+    String otp;
     @Column(name = "otp_expiry")
-    private LocalDateTime otpExpiry;
+    Instant otpExpiry;
     @Column(name = "oauth2_id")
-    private String oauth2Id;
+    String oauth2Id;
     @Column(name = "oauth2_email")
-    private String oauth2Email;
+    String oauth2Email;
     @Column(name = "oauth2_provider")
-    private String oauth2Provider;
+    String oauth2Provider;
     @Column(name = "oauth2_profile_picture")
-    private String oauth2ProfilePicture;
+    String oauth2ProfilePicture;
     @Column(name = "oauth2_access_token")
-    private String oauth2AccessToken;
+    String oauth2AccessToken;
     @Column(name = "oauth2_refresh_token")
-    private String oauth2RefreshToken;
+    String oauth2RefreshToken;
     @Column(name = "oauth2_token_expiry")
-    private Long oauth2TokenExpiry;
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    Long oauth2TokenExpiry;
     @ManyToOne
     @JoinColumn(name = "role_id")
-    private RoleEntity role;
+    RoleEntity role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserLogEntity> logs = new HashSet<>();
+    Set<UserLogEntity> logs = new HashSet<>();
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private CartEntity cart;
+    CartEntity cart;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<OrderEntity> orders = new HashSet<>();
+    Set<OrderEntity> orders = new HashSet<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<WishlistEntity> wishlist;
+    Set<WishlistEntity> wishlist;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ReviewEntity> reviews = new HashSet<>();
+    Set<ReviewEntity> reviews = new HashSet<>();
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        if (enabled == null) {
-            enabled = 0;
-        }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }

@@ -3,11 +3,6 @@ spring:
     name: furniture
   profiles:
     active: dev
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/furniture
-#    username:
-#    password:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: none
@@ -31,12 +26,5 @@ spring:
             enable: true
           starttls.required: true
           ssl.trust: smtp.gmail.com
-
-#create jwt-secret-key:
-#1. python3:
-#import secrets
-#print(secrets.token_urlsafe(64))
-#2 bash:
-# openssl rand -base64 64
-#jwt:
-#  secret-key:
+server:
+  port: 8081

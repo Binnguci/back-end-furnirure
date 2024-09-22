@@ -1,7 +1,6 @@
 package com.binnguci.furniture.constant;
 
 public class StringConstant {
-
     // Product
     public static final String PRODUCT_NOT_FOUND = "Product not found";
     public static final String PRODUCT_NAME_REQUIRED = "Product name is required";
@@ -88,4 +87,29 @@ public class StringConstant {
     public static final String ROLE_CREATED = "Role created";
     public static final String ROLE_UPDATED = "Role updated";
     public static final String ROLE_DELETED = "Role deleted";
+
+    //Mail
+    public static final String MAIL_SENT = "Mail sent";
+    public static final String MAIL_FAILED = "Mail failed";
+    public static final String OTP_NUll = "OTP cannot be empty or blank";
+    public static final String TEMPLATE_OTP_EMAIL = """
+            <div style="font-family: Arial, sans-serif; color: #333;">
+                <p style="font-size: 16px;">Chào bạn,</p>
+                <p style="font-size: 16px;">
+                    Bạn đã yêu cầu lấy lại mật khẩu cho tài khoản của mình. Dưới đây là mã OTP để xác nhận:
+                </p>                        
+                <p style="font-size: 18px; font-weight: bold; color: #D19C97; text-align: center;">
+                    Mã OTP: %s
+                </p>
+                <p style="font-size: 16px;">
+                    Vui lòng nhập mã này vào ứng dụng để tiếp tục quá trình lấy lại mật khẩu.
+                </p>
+                <p style="font-size: 16px;">
+                    Nếu bạn không yêu cầu lấy lại mật khẩu, vui lòng bỏ qua email này.
+                </p>
+                <p style="font-size: 16px;">Trân trọng,</p>
+                <p style="font-size: 16px; font-style: italic;">Đội ngũ hỗ trợ</p>
+            </div>
+            """;
 }
+

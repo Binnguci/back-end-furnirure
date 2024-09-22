@@ -1,8 +1,8 @@
 package com.binnguci.furniture.service.user;
 
-import com.binnguci.furniture.dto.UserDTO;
 import com.binnguci.furniture.domain.request.AccountVerifyRequest;
 import com.binnguci.furniture.domain.request.RegisterRequest;
+import com.binnguci.furniture.dto.UserDTO;
 import com.binnguci.furniture.entity.RoleEntity;
 import com.binnguci.furniture.entity.UserEntity;
 import com.binnguci.furniture.enums.ErrorCode;
@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +31,16 @@ public class UserServiceImpl implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final IEmailService emailService;
 
+    @Override
+    public List<UserDTO> findAll() {
+        log.info("Request to get all users in service");
+        List<UserEntity> userEntities = userRepository.findAll();
+        if (!userEntities.isEmpty()) {
+            log.info("Successfully found all users");
+            return userMapper.toListDTO(userEntities);
+        }
+        return List.of();
+    }
 
     @Override
     public UserDTO register(RegisterRequest registerRequest) {
@@ -41,7 +53,9 @@ public class UserServiceImpl implements IUserService {
         // tạo và gán otp
         String otp = generateOTP();
         user.setOtp(otp);
-        user.setOtpExpiry(LocalDateTime.now().plusMinutes(10));
+        user.setOtpExpiry(
+                Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant()
+        );
 
         //Gửi mail
         emailService.sendMailOTP(user.getEmail(), otp);
@@ -62,7 +76,7 @@ public class UserServiceImpl implements IUserService {
         // tạo và gán otp
         String otp = generateOTP();
         user.setOtp(otp);
-        user.setOtpExpiry(LocalDateTime.now().plusMinutes(10));
+        user.setOtpExpiry(Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant());
         userRepository.save(user);
         //Gửi mail
         emailService.sendMailOTP(user.getEmail(), otp);
@@ -100,11 +114,8 @@ public class UserServiceImpl implements IUserService {
         userEntity.setFullName(userDTO.getFullName());
         userEntity.setAddress(userDTO.getAddress());
         userEntity.setPhone(userDTO.getPhone());
-
-
         return null;
     }
-
 
     @Override
     public UserDTO findByUsername(String username) {
@@ -116,6 +127,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public void blockAndUnBlockUser(Integer id) {
+        log.info("Request to block user with id: {}", id);
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        if (user.getEnabled() == 1) {
+            user.setEnabled((short) 0);
+        } else {
+            user.setEnabled((short) 1);
+        }
+        userRepository.save(user);
+        log.info("User with id: {} blocked/unblocked successfully", id);
+    }
+
+    @Override
     public void verifyAccount(AccountVerifyRequest accountVerifyRequest) {
         log.info("Request to verify account for email: {}", accountVerifyRequest.getEmail());
 
@@ -123,7 +148,7 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         // Check otp expiry
-        if (userEntity.getOtpExpiry().isBefore(LocalDateTime.now())) {
+        if (userEntity.getOtpExpiry().isBefore(Instant.now())) {
             throw new AppException(ErrorCode.OTP_EXPIRED);
         }
         // Check otp is valid
@@ -151,14 +176,16 @@ public class UserServiceImpl implements IUserService {
         }
         if (userByEmail.isPresent()) {
             log.warn("Email already exists");
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+        if (userByEmail.isPresent()) {
             UserEntity existingUser = userByEmail.get();
             if (existingUser.getEnabled() == 0) {
 
                 String newOtp = generateOTP();
                 existingUser.setOtp(newOtp);
-                existingUser.setOtpExpiry(LocalDateTime.now().plusMinutes(10));
+                existingUser.setOtpExpiry(Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant());
                 userRepository.save(existingUser);
-                // gửi lại otp
                 emailService.sendMailOTP(existingUser.getEmail(), newOtp);
 
                 throw new AppException(ErrorCode.ACCOUNT_NOT_VERIFIED);

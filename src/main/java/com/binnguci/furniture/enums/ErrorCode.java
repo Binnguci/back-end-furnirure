@@ -24,8 +24,8 @@ public enum ErrorCode {
     UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "You do not have permission"),
     USER_NOT_FOUND(404, "User not found"),
     NOT_FOUND(404, "Not found"),
-    EMAIL_ALREADY_EXISTS(409, "Email already exists"),  // Conflict
-    USERNAME_ALREADY_EXISTS(409, "Username already exists"),  // Conflict
+    EMAIL_ALREADY_EXISTS(409, "Email already exists"),
+    USERNAME_ALREADY_EXISTS(409, "Username already exists"),
     INVALID_PASSWORD(400, "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"),
     ROLE_NOT_FOUND(404, "Role not found"),
     OTP_EXPIRED(400, "OTP expired"),

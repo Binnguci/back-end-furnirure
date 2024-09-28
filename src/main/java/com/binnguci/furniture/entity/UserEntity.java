@@ -22,18 +22,20 @@ public class UserEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Column(nullable = false, unique = true)
     String username;
+    @Column(nullable = false)
     String password;
+    @Column(nullable = false, unique = true)
     String email;
     String phone;
     String address;
-    Short enabled;
     @Column(name = "full_name")
     String fullName;
     @Column(name = "otp")
     String otp;
-    @Column(name = "otp_expiry")
-    Instant otpExpiry;
+    @Column(name = "otp_expired")
+    Instant otpExpired;
     @Column(name = "oauth2_id")
     String oauth2Id;
     @Column(name = "oauth2_email")
@@ -42,12 +44,8 @@ public class UserEntity extends BaseEntity{
     String oauth2Provider;
     @Column(name = "oauth2_profile_picture")
     String oauth2ProfilePicture;
-    @Column(name = "oauth2_access_token")
-    String oauth2AccessToken;
-    @Column(name = "oauth2_refresh_token")
-    String oauth2RefreshToken;
-    @Column(name = "oauth2_token_expiry")
-    Long oauth2TokenExpiry;
+    @Column(name = "is_active", nullable = false)
+    Boolean isActive = true;
     @ManyToOne
     @JoinColumn(name = "role_id")
     RoleEntity role;

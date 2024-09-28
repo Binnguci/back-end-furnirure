@@ -15,23 +15,21 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = DatabaseConstant.SUPPLIER_TABLE)
+@Table(name = DatabaseConstant.ROOM_TABLE)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SupplierEntity {
+public class RoomEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @Column(nullable = false, unique = true)
     String name;
-    @Column(name = "contact_email")
-    String contactEmail;
-    @Column(name = "contact_phone")
-    String contactPhone;
-    String address;
-    String country;
-    String website;
     @Column(name = "is_active", nullable = false)
     Boolean isActive = true;
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(
+            name = "room_products",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     Set<ProductEntity> products = new HashSet<>();
 }

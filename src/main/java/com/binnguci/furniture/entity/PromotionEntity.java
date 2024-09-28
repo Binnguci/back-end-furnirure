@@ -16,24 +16,32 @@ import java.util.Set;
 @Entity
 @Table(name = "promotion")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PromotionEntity {
+public class PromotionEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     String id;
-    String name;
     String description;
     String code;
-    Double discount;
+    @Column(name = "discount_percent")
+    Double discountPercent;
     @Column(name = "min_order")
     Double minOrder;
-    @Column(name = "max_discount")
-    Double maxDiscount;
+    @Column(name = "max_discount_amount")
+    Double maxDiscountAcount;
     @Column(name = "start_date")
     Long startDate;
     @Column(name = "end_date")
     Long endDate;
     @Column(name = "is_active")
-    Boolean isActive;
-    @Column(name = "is_deleted")
-    Boolean isDeleted;
+    Boolean isActive = true;
+    @Column(name = "usage_limit")
+    Integer usageLimit;
+    @ManyToMany
+    @JoinTable(
+            name = "promotion_orders",
+            joinColumns = @JoinColumn(name = "promotion_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    Set<OrderEntity> orders = new HashSet<>();
+
 }

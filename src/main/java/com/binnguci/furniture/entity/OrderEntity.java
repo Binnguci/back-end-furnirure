@@ -26,16 +26,18 @@ public class OrderEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name = "total_price")
-    Double totalPrice;
+    @Column(name = "total_amount")
+    Double totalAmount;
     String address;
     String status;
-    @Column(name = "payment_method")
-    String paymentMethod;
+    @Column(name = "payment")
+    String payment;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     UserEntity user;
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     Set<OrderItemEntity> orderItems = new HashSet<>();
+    @ManyToMany(mappedBy = "orders")
+    Set<PromotionEntity> promotions = new HashSet<>();
 }
 

@@ -53,7 +53,7 @@ public class UserServiceImpl implements IUserService {
         // tạo và gán otp
         String otp = generateOTP();
         user.setOtp(otp);
-        user.setOtpExpiry(
+        user.setOtpExpired(
                 Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant()
         );
 
@@ -76,7 +76,7 @@ public class UserServiceImpl implements IUserService {
         // tạo và gán otp
         String otp = generateOTP();
         user.setOtp(otp);
-        user.setOtpExpiry(Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant());
+        user.setOtpExpired(Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant());
         userRepository.save(user);
         //Gửi mail
         emailService.sendMailOTP(user.getEmail(), otp);
@@ -131,10 +131,10 @@ public class UserServiceImpl implements IUserService {
         log.info("Request to block user with id: {}", id);
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        if (user.getEnabled() == 1) {
-            user.setEnabled((short) 0);
+        if (user.getIsActive() == true) {
+            user.setIsActive(false);
         } else {
-            user.setEnabled((short) 1);
+            user.setIsActive(true);
         }
         userRepository.save(user);
         log.info("User with id: {} blocked/unblocked successfully", id);
@@ -148,7 +148,7 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         // Check otp expiry
-        if (userEntity.getOtpExpiry().isBefore(Instant.now())) {
+        if (userEntity.getOtpExpired().isBefore(Instant.now())) {
             throw new AppException(ErrorCode.OTP_EXPIRED);
         }
         // Check otp is valid
@@ -157,9 +157,9 @@ public class UserServiceImpl implements IUserService {
         }
 
         // Gán dữ liệu mới
-        userEntity.setEnabled((short) 1);
+        userEntity.setIsActive(true);
         userEntity.setOtp(null);
-        userEntity.setOtpExpiry(null);
+        userEntity.setOtpExpired(null);
 
         userRepository.save(userEntity);
         log.info("Account verified successfully for email: {}", accountVerifyRequest.getEmail());
@@ -180,11 +180,11 @@ public class UserServiceImpl implements IUserService {
         }
         if (userByEmail.isPresent()) {
             UserEntity existingUser = userByEmail.get();
-            if (existingUser.getEnabled() == 0) {
+            if (existingUser.getIsActive() == true) {
 
                 String newOtp = generateOTP();
                 existingUser.setOtp(newOtp);
-                existingUser.setOtpExpiry(Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant());
+                existingUser.setOtpExpired(Instant.now().atZone(ZoneId.systemDefault()).plusMinutes(10).toInstant());
                 userRepository.save(existingUser);
                 emailService.sendMailOTP(existingUser.getEmail(), newOtp);
 

@@ -17,11 +17,14 @@ import java.util.Set;
 @Entity
 @Table(name = DatabaseConstant.CATEGORY_TABLE)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryEntity {
+public class CategoryEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Column(nullable = false, unique = true)
     String name;
+    @Column(name = "is_active", nullable = false)
+    Boolean isActive = true;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<ProductEntity> products = new HashSet<>();
 }

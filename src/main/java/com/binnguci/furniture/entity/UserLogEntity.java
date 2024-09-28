@@ -18,9 +18,12 @@ public class UserLogEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(name = "log_level")
     String level;
-    String ip;
+    @Column(name = "ip_address")
+    String ipAddress;
     String action;
+    String message;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     UserEntity user;

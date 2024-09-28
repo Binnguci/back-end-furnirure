@@ -14,4 +14,7 @@ public class DatabaseConstant {
     public static final String USER_LOG_TABLE = "user_logs";
     public static final String USER_TABLE = "users";
     public static final String WISH_LIST_TABLE = "wish_lists";
+    public static final String ROOM_TABLE = "rooms";
+    public static final String PROMOTION_TABLE = "promotions";
+    public static final String PROMOTION_ORDER_TABLE = "promotion_orders";
 }

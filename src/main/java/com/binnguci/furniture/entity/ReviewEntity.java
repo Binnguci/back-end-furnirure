@@ -19,12 +19,10 @@ public class ReviewEntity extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String comment;
-    Double rating;
-
+    Integer rating;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     ProductEntity product;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     UserEntity user;

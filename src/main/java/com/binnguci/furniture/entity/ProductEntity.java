@@ -22,7 +22,7 @@ public class ProductEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String name;
-    Double price;
+    Integer price;
     Integer stock;
     String description;
     @Column(name = "is_active")

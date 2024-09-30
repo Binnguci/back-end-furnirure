@@ -46,4 +46,5 @@ public class ProductDTO {
     Set<ReviewDTO> reviews;
     Instant createdAt;
     Instant updatedAt;
+    Instant deletedAt;
 }

@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 @Data
@@ -18,10 +19,10 @@ import java.util.Set;
 @Entity
 @Table(name = DatabaseConstant.USER_TABLE)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserEntity extends BaseEntity{
+public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    Long id;
     @Column(nullable = false, unique = true)
     String username;
     @Column(nullable = false)
@@ -29,23 +30,18 @@ public class UserEntity extends BaseEntity{
     @Column(nullable = false, unique = true)
     String email;
     String phone;
-    String address;
     @Column(name = "full_name")
     String fullName;
     @Column(name = "otp")
-    String otp;
+    Integer otp;
     @Column(name = "otp_expired")
     Instant otpExpired;
     @Column(name = "oauth2_id")
     String oauth2Id;
-    @Column(name = "oauth2_email")
-    String oauth2Email;
     @Column(name = "oauth2_provider")
     String oauth2Provider;
-    @Column(name = "oauth2_profile_picture")
-    String oauth2ProfilePicture;
     @Column(name = "is_active", nullable = false)
-    Boolean isActive = true;
+    Short isActive;
     @ManyToOne
     @JoinColumn(name = "role_id")
     RoleEntity role;
@@ -59,5 +55,6 @@ public class UserEntity extends BaseEntity{
     Set<WishlistEntity> wishlist;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<ReviewEntity> reviews = new HashSet<>();
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Set<AddressEntity> addresses = new HashSet<>();
 }

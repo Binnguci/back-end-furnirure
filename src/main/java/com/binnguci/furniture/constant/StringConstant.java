@@ -92,7 +92,7 @@ public class StringConstant {
     public static final String MAIL_SENT = "Mail sent";
     public static final String MAIL_FAILED = "Mail failed";
     public static final String OTP_NUll = "OTP cannot be empty or blank";
-    public static final String TEMPLATE_OTP_EMAIL = """
+    public static final String TEMPLATE_EMAIL_VERIFY = """
             <div style="font-family: Arial, sans-serif; color: #333;">
                 <p style="font-size: 16px;">Chào bạn,</p>
                 <p style="font-size: 16px;">

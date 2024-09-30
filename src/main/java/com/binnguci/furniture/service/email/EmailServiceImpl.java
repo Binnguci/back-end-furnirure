@@ -30,22 +30,22 @@ public class EmailServiceImpl implements IEmailService {
     private String username;
 
     @Override
-    public void sendMailOTP(String to, String otp) {
+    public void sendMailOTP(String to, Integer otp) {
         log.info("Sending OTP email to {}", to);
         String subject = "[XÁC NHẬN OTP TỪ FURNITURE]";
         String content = generateOtpEmailContent(otp);
         sendMail(to, subject, content);
     }
 
-    private String generateOtpEmailContent(String otp) {
-        if (otp == null || otp.isBlank()) {
+    private String generateOtpEmailContent(Integer otp) {
+        if (otp == null) {
             throw new IllegalArgumentException(StringConstant.OTP_NUll);
         }
-        return String.format(StringConstant.TEMPLATE_OTP_EMAIL, otp);
+        return String.format(StringConstant.TEMPLATE_EMAIL_VERIFY, otp);
     }
 
 
-    private void sendMail(String to, String subject, String content) {
+        private void sendMail(String to, String subject, String content) {
         log.info("Preparing to send email to {}", to);
         executorService.submit(() -> {
             log.info("Submitting email task to executor");
@@ -63,6 +63,7 @@ public class EmailServiceImpl implements IEmailService {
     }
 
 
+
     private MimeMessage createMimeMessage(String to, String subject, String content) throws MessagingException {
         log.info("Creating MimeMessage for email to {}", to);
         MimeMessage message = mailSender.createMimeMessage();
@@ -73,11 +74,5 @@ public class EmailServiceImpl implements IEmailService {
         helper.setText(content, true);
         return message;
     }
-
-    @PreDestroy
-    public void shutdown() {
-        executorService.shutdown();
-    }
-
 
 }

@@ -19,7 +19,7 @@ public class OrderItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     Integer quantity;
-    Double price;
+    Integer price;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     ProductEntity product;

@@ -28,4 +28,5 @@ public class CartEntity extends BaseEntity {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<CartItemEntity> cartItems = new HashSet<>();
 
+
 }

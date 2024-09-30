@@ -24,7 +24,7 @@ public class RoomEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     String name;
     @Column(name = "is_active", nullable = false)
-    Boolean isActive = true;
+    Short isActive = 1;
     @ManyToMany
     @JoinTable(
             name = "room_products",

@@ -6,7 +6,9 @@ import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.mapper.ReviewMapper;
 import com.binnguci.furniture.repository.IReviewRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +19,10 @@ import java.time.Instant;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ReviewServiceImpl implements IReviewService {
-    private final IReviewRepository reviewRepository;
-    private final ReviewMapper reviewMapper;
+    IReviewRepository reviewRepository;
+    ReviewMapper reviewMapper;
 
     @Override
     public Page<ReviewDTO> findAll(Pageable pageable) {

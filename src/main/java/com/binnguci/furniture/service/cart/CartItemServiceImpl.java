@@ -6,7 +6,9 @@ import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.mapper.CartItemMapper;
 import com.binnguci.furniture.repository.ICartItemRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,10 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CartItemServiceImpl implements ICartItemService{
-    private final CartItemMapper cartItemMapper;
-
-    private final ICartItemRepository cartItemRepository;
+    CartItemMapper cartItemMapper;
+    ICartItemRepository cartItemRepository;
 
     @Override
     public CartItemDTO saveCartItem(CartItemDTO cartItemDTO) {

@@ -8,7 +8,9 @@ import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.mapper.ProductMapper;
 import com.binnguci.furniture.repository.IProductRepository;
 import com.binnguci.furniture.repository.custom.product.IProductRepositoryCustom;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +23,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductServiceImpl implements IProductService {
-    private final IProductRepository productRepository;
-    private final IProductRepositoryCustom productRepositoryCustom;
-    private final ProductMapper productMapper;
+    IProductRepository productRepository;
+    IProductRepositoryCustom productRepositoryCustom;
+    ProductMapper productMapper;
 
     @Override
     public ProductDTO findById(Integer id) {

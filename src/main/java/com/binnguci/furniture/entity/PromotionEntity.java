@@ -1,5 +1,6 @@
 package com.binnguci.furniture.entity;
 
+import com.binnguci.furniture.constant.DatabaseConstant;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "promotion")
+@Table(name = DatabaseConstant.PROMOTION_TABLE)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PromotionEntity extends BaseEntity {
     @Id

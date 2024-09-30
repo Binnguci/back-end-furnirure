@@ -16,5 +16,5 @@ public class DatabaseConstant {
     public static final String WISH_LIST_TABLE = "wish_lists";
     public static final String ROOM_TABLE = "rooms";
     public static final String PROMOTION_TABLE = "promotions";
-    public static final String PROMOTION_ORDER_TABLE = "promotion_orders";
+    public static final String ADDRESS = "address";
 }

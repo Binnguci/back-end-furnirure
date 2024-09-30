@@ -12,19 +12,15 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDTO {
-    Integer id;
+    Long id;
     String username;
     String fullName;
     String email;
     String phone;
-    String address;
-    Short enabled;
     String oauth2Id;
-    String oauth2Email;
     String oauth2Provider;
-    String oauth2ProfilePicture;
     String otp;
-    Instant otpExpiry;
+    Instant otpExpired;
     Instant createdAt;
     Instant updatedAt;
     RoleDTO role;

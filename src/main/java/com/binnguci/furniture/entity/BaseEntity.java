@@ -31,7 +31,7 @@ public class BaseEntity implements Serializable {
     @Column(name = "deleted_at")
     Instant deletedAt;
 
-    public void markAsDeleted() {
-        this.deletedAt = Instant.now();
-    }
+//    public void markAsDeleted() {
+//        this.deletedAt = Instant.now();
+//    }
 }

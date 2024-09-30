@@ -8,7 +8,9 @@ import com.binnguci.furniture.enums.ErrorCode;
 import com.binnguci.furniture.exception.AppException;
 import com.binnguci.furniture.repository.InvalidatedTokenRepository;
 import com.binnguci.furniture.utils.JwtTokenUtil;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,11 +27,12 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationServiceImpl implements IAuthenticationService {
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final InvalidatedTokenRepository invalidatedTokenRepository;
+    AuthenticationManager authenticationManager;
+    UserDetailsService userDetailsService;
+    JwtTokenUtil jwtTokenUtil;
+    InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Override
     public JwtResponse login(AuthenticationRequest request) {

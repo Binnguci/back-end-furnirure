@@ -9,12 +9,6 @@ import java.util.List;
 public interface IUserService {
     List<UserDTO> findAll();
 
-    UserDTO register(RegisterRequest registerRequest);
-
-    void forgetPassword(String email);
-
-    void changePassword(String email, String password);
-
     UserDTO getInformationOfUser(String username);
 
     UserDTO updateInformationOfUser(UserDTO userDTO);
@@ -23,5 +17,5 @@ public interface IUserService {
 
     void blockAndUnBlockUser(Integer id);
 
-    void verifyAccount(AccountVerifyRequest accountVerifyRequest);
+
 }

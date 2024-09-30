@@ -31,7 +31,7 @@ public class SupplierEntity {
     String country;
     String website;
     @Column(name = "is_active", nullable = false)
-    Boolean isActive = true;
+    Short isActive;
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<ProductEntity> products = new HashSet<>();
 }
